@@ -1,49 +1,104 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HeaderButton, Text } from '@react-navigation/elements';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import {
   createStaticNavigation,
   StaticParamList,
-} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image } from 'react-native';
-import bell from '../assets/bell.png';
-import newspaper from '../assets/newspaper.png';
-import { Home } from './screens/Home';
-import { Profile } from './screens/Profile';
-import { Settings } from './screens/Settings';
-import { Updates } from './screens/Updates';
-import { NotFound } from './screens/NotFound';
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { NotFound } from "./screens/NotFound";
+import Home from "./screens/BottomTabsScreens/Home";
+import { Profile } from "./screens/BottomTabsScreens/Profile";
+
+import {
+  MaterialIcons,
+  MaterialCommunityIcons,
+  FontAwesome6,
+} from "@expo/vector-icons";
+import RouteHome from "./screens/RouteScreens/RouteHome";
+import ChooseCar from "./screens/RouteScreens/ChooseCar";
+import Payment from "./screens/RouteScreens/Payment";
+import Success from "./screens/RouteScreens/Success";
+import HomeTrip from "./screens/RouteScreens/HomeTrip";
+import colors from "../theme/colors";
+
+const RouteStack = createNativeStackNavigator({
+  screens: {
+    HomeTrip: {
+      screen: HomeTrip,
+      options: {
+        headerShown: false,
+
+        title: "HomeTrip",
+      },
+    },
+    RouteHome: {
+      screen: RouteHome,
+      options: {
+        headerShown: false,
+
+        title: "RouteHome",
+      },
+    },
+    ChooseCar: {
+      screen: ChooseCar,
+      options: {
+        headerShown: false,
+
+        title: "ChooseCar",
+      },
+    },
+    Payment: {
+      screen: Payment,
+      options: {
+        headerShown: false,
+
+        title: "Payment",
+      },
+    },
+    Success: {
+      screen: Success,
+      options: {
+        title: "Success",
+      },
+    },
+  },
+});
 const HomeTabs = createBottomTabNavigator({
+  screenOptions: {
+    tabBarActiveTintColor: colors.accent, // колір іконки/лейблу активної вкладки
+    tabBarInactiveTintColor: colors.grey, // неактивні
+  },
   screens: {
     Home: {
       screen: Home,
       options: {
-        title: 'Feed',
+        headerShown: false,
+
+        title: "Home",
         tabBarIcon: ({ color, size }) => (
-          <Image
-            source={newspaper}
-            tintColor={color}
-            style={{
-              width: size,
-              height: size,
-            }}
-          />
+          <MaterialIcons name="house" color={color} size={size} />
         ),
       },
     },
-    Updates: {
-      screen: Updates,
+    My_Routes: {
+      screen: RouteStack,
       options: {
+        headerShown: false,
+        title: "My Routes",
         tabBarIcon: ({ color, size }) => (
-          <Image
-            source={bell}
-            tintColor={color}
-            style={{
-              width: size,
-              height: size,
-            }}
-          />
+          <MaterialCommunityIcons name="highway" color={color} size={size} />
+        ),
+      },
+    },
+    Profile: {
+      screen: Profile,
+      options: {
+        headerShown: false,
+
+        title: "Profile",
+        tabBarIcon: ({ color, size }) => (
+          <FontAwesome6 name="user" color={color} size={size} />
         ),
       },
     },
@@ -55,40 +110,18 @@ const RootStack = createNativeStackNavigator({
     HomeTabs: {
       screen: HomeTabs,
       options: {
-        title: 'Home',
+        title: "Homes",
         headerShown: false,
       },
     },
-    Profile: {
-      screen: Profile,
-      linking: {
-        path: ':user(@[a-zA-Z0-9-_]+)',
-        parse: {
-          user: (value) => value.replace(/^@/, ''),
-        },
-        stringify: {
-          user: (value) => `@${value}`,
-        },
-      },
-    },
-    Settings: {
-      screen: Settings,
-      options: ({ navigation }) => ({
-        presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text>Close</Text>
-          </HeaderButton>
-        ),
-      }),
-    },
+
     NotFound: {
       screen: NotFound,
       options: {
-        title: '404',
+        title: "404",
       },
       linking: {
-        path: '*',
+        path: "*",
       },
     },
   },
