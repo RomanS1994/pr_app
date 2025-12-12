@@ -1,9 +1,13 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Users } from "lucide-react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "../theme/colors";
+import {
+  CARS_PRICE_BOARDING,
+  CARS_PRICE_KM,
+  EXCHANGE_RATES,
+} from "../js/prices";
 
 const images = {
   Van: require("../assets/images/cars/Van.png"),
@@ -12,7 +16,26 @@ const images = {
   Comfort: require("../assets/images/cars/Comfort.png"),
 };
 
-export default function Car({ title, price, seats, suitcase, style }) {
+type CarProps = {
+  title: "Standard" | "Comfort" | "Business" | "Van";
+  distance: number;
+  seats: string | number;
+  suitcase: string | number;
+  style?: any;
+};
+
+export default function Car({
+  title,
+  distance,
+  seats,
+  suitcase,
+  style,
+}: CarProps) {
+  const price = Math.round(
+    (CARS_PRICE_BOARDING[title] + CARS_PRICE_KM[title] * distance) /
+      EXCHANGE_RATES["EUR"]
+  );
+
   return (
     <TouchableOpacity style={[styles.car, style]}>
       <Image style={styles.photo} source={images[title]} />
@@ -20,7 +43,7 @@ export default function Car({ title, price, seats, suitcase, style }) {
         <Text style={styles.title}>{title}</Text>
         <View style={styles.details}>
           <View>
-            <Text style={styles.title}>{price}</Text>
+            <Text style={styles.title}>${price}</Text>
           </View>
           <View style={styles.descBox}>
             <Users size={14} color={colors.grey} />
@@ -37,8 +60,12 @@ export default function Car({ title, price, seats, suitcase, style }) {
           </View>
         </View>
       </View>
-      <Icon name="radio-button-unchecked" size={28} color={colors.accent} />
-      {/* <Icon name="radio-button-checked" size={28} color="#DED47B" /> */}
+      <MaterialIcons
+        name="radio-button-unchecked"
+        size={28}
+        color={colors.accent}
+      />
+      <MaterialIcons name="radio-button-checked" size={28} color="#DED47B" />
     </TouchableOpacity>
   );
 }

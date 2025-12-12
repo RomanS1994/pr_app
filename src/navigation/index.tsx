@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { NotFound } from "./screens/NotFound";
 import Home from "./screens/BottomTabsScreens/Home";
-import { Profile } from "./screens/BottomTabsScreens/Profile";
+import { Profile } from "./screens/ProfileScreens/Profile";
 
 import {
   MaterialIcons,
@@ -21,6 +21,9 @@ import Payment from "./screens/RouteScreens/Payment";
 import Success from "./screens/RouteScreens/Success";
 import HomeTrip from "./screens/RouteScreens/HomeTrip";
 import colors from "../theme/colors";
+
+import TransferDetails from "./screens/ProfileScreens/TransferDetails";
+import TransfersList from "./screens/ProfileScreens/TransfersList";
 
 const RouteStack = createNativeStackNavigator({
   screens: {
@@ -64,6 +67,35 @@ const RouteStack = createNativeStackNavigator({
     },
   },
 });
+const ProfileStack = createNativeStackNavigator({
+  screens: {
+    Profile: {
+      screen: Profile,
+      options: {
+        headerShown: false,
+
+        title: "HomeTrip",
+      },
+    },
+    TransfersList: {
+      screen: TransfersList,
+      options: {
+        // headerShown: false,
+
+        title: "TransfersList",
+      },
+    },
+    TransferDetails: {
+      screen: TransferDetails,
+      options: {
+        // headerShown: false,
+
+        title: "TransferDetails",
+      },
+    },
+  },
+});
+
 const HomeTabs = createBottomTabNavigator({
   screenOptions: {
     tabBarActiveTintColor: colors.accent, // колір іконки/лейблу активної вкладки
@@ -91,8 +123,8 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-    Profile: {
-      screen: Profile,
+    ProfileStack: {
+      screen: ProfileStack,
       options: {
         headerShown: false,
 

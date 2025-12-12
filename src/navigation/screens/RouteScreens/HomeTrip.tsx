@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import Logo from "../../../components/logo";
 import MainButton from "../../../components/mainButton";
 import { useNavigation } from "@react-navigation/native";
+import SecondaryButton from "../../../components/secondaryButton";
 
 export default function HomeTrip() {
   const navigation = useNavigation();

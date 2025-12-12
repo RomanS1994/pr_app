@@ -8,9 +8,10 @@ import SecondaryButton from "../../../components/secondaryButton";
 import { useNavigation } from "@react-navigation/native";
 
 export default function ChooseCar({ route }) {
+
   const navigation = useNavigation();
 
-  const { pickUpAdres, dropOffAddres } = route?.params ?? {};
+  const { pickUpAdres, dropOffAddres, distance } = route?.params ?? {};
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -29,10 +30,10 @@ export default function ChooseCar({ route }) {
         </View>
       </View>
       <View style={{ gap: 12, marginBottom: 32 }}>
-        <Car title="Standard" price="$1.99" suitcase="2" seats="4"></Car>
-        <Car title="Comfort" price="$1.99" suitcase="2" seats="4"></Car>
-        <Car title="Business" price="$1.99" suitcase="2" seats="4"></Car>
-        <Car title="Van" price="$1.99" suitcase="2" seats="4"></Car>
+        <Car title="Standard" distance={distance} suitcase="2" seats="4" />
+        <Car title="Comfort" distance={distance} suitcase="2" seats="4"></Car>
+        <Car title="Business" distance={distance} suitcase="2" seats="4"></Car>
+        <Car title="Van" distance={distance} suitcase="2" seats="4"></Car>
       </View>
 
       <View style={styles.buttonWrapper}>
