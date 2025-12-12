@@ -24,7 +24,8 @@ export default function TransfersList() {
         const result = await fetchTransfers();
         setData(result.slice(0, 20));
       } catch (e) {
-        setError(e.message || "Помилка завантаження");
+        console.log(e.message);
+        setError("Помилка завантаження");
       } finally {
         setLoading(false);
       }
