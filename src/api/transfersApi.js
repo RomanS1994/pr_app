@@ -8,14 +8,6 @@ export const fetchTransfers = async () => {
 
     return response.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
-
-// export const fetchTransfers = async () => {
-//   const response = await fetch(API_URL);
-//   if (!response.ok) {
-//     throw new Error("Failed to fetch transfers");
-//   }
-//   return response.json();
-// };
