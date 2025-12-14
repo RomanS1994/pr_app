@@ -7,6 +7,11 @@ const API_KEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_KEY;
 
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
+import { useDispatch } from "react-redux";
+import {
+  changeFrom,
+  changeTo,
+} from "../../../features/address/addressSlice/addressSlice";
 // import { geocodeAddress } from "../../../maps/maps";
 
 type Coordinates = {
@@ -29,11 +34,17 @@ export default function RouteHome() {
     longitudeDelta: 0.05,
   });
 
+  const dispatch = useDispatch();
+
   const goNext = () => {
     if (!pickUpAdres.trim() || !dropOffAddres.trim()) {
       Alert.alert("Заповніть обидві адреси");
       return;
     }
+
+    dispatch(changeFrom(pickUpAdres));
+    dispatch(changeTo(dropOffAddres));
+
     navigation.navigate("ChooseCar", { pickUpAdres, dropOffAddres, distance });
   };
 

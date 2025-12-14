@@ -7,7 +7,7 @@ import {
   CARS_PRICE_BOARDING,
   CARS_PRICE_KM,
   EXCHANGE_RATES,
-} from "../js/prices";
+} from "../js/Prices";
 
 const images = {
   Van: require("../assets/images/cars/Van.png"),
@@ -65,7 +65,7 @@ export default function Car({
         size={28}
         color={colors.accent}
       />
-      <MaterialIcons name="radio-button-checked" size={28} color="#DED47B" />
+      {/* <MaterialIcons name="radio-button-checked" size={28} color="#DED47B" /> */}
     </TouchableOpacity>
   );
 }

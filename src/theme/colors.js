@@ -7,3 +7,4 @@ export default {
   secondary_akcent: "#FCFAE9",
   deep_blue: "#083459",
 };
+

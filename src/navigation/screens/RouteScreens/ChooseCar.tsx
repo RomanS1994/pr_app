@@ -6,12 +6,14 @@ import Car from "../../../components/carChoise";
 import MainButton from "../../../components/mainButton";
 import SecondaryButton from "../../../components/secondaryButton";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 export default function ChooseCar({ route }) {
-
   const navigation = useNavigation();
 
-  const { pickUpAdres, dropOffAddres, distance } = route?.params ?? {};
+  const { from, to } = useSelector((state) => state.address);
+
+  const { distance } = route?.params ?? {};
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -21,11 +23,11 @@ export default function ChooseCar({ route }) {
         <View>
           <View style={{ gap: 4, marginBottom: "auto" }}>
             <Text style={styles.infoDescription}> Pick-up </Text>
-            <Text style={styles.infoLocation}>{pickUpAdres}</Text>
+            <Text style={styles.infoLocation}>{from}</Text>
           </View>
           <View style={{ gap: 4 }}>
             <Text style={styles.infoDescription}> Drop off </Text>
-            <Text style={styles.infoLocation}>{dropOffAddres}</Text>
+            <Text style={styles.infoLocation}>{to}</Text>
           </View>
         </View>
       </View>
