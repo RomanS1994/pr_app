@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Users } from "lucide-react-native";
+
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 import colors from "../theme/colors";
 import {
@@ -8,6 +9,7 @@ import {
   CARS_PRICE_KM,
   EXCHANGE_RATES,
 } from "../js/Prices";
+import React, { useMemo } from "react";
 
 const images = {
   Van: require("../assets/images/cars/Van.png"),
@@ -22,22 +24,31 @@ type CarProps = {
   seats: string | number;
   suitcase: string | number;
   style?: any;
+  selected: boolean;
+  onSelect?: (title: CarProps["title"]) => void;
 };
 
-export default function Car({
+function Car({
   title,
   distance,
   seats,
   suitcase,
   style,
+  selected,
+  onSelect,
 }: CarProps) {
-  const price = Math.round(
-    (CARS_PRICE_BOARDING[title] + CARS_PRICE_KM[title] * distance) /
-      EXCHANGE_RATES["EUR"]
-  );
+  const price = useMemo(() => {
+    return Math.round(
+      (CARS_PRICE_BOARDING[title] + CARS_PRICE_KM[title] * distance) /
+        EXCHANGE_RATES["EUR"]
+    );
+  }, [title, distance]);
 
   return (
-    <TouchableOpacity style={[styles.car, style]}>
+    <TouchableOpacity
+      onPress={() => onSelect(title)}
+      style={[styles.car, selected && styles.carSelected, style]}
+    >
       <Image style={styles.photo} source={images[title]} />
       <View style={styles.wrapperDesc}>
         <Text style={styles.title}>{title}</Text>
@@ -46,8 +57,14 @@ export default function Car({
             <Text style={styles.title}>${price}</Text>
           </View>
           <View style={styles.descBox}>
-            <Users size={14} color={colors.grey} />
-            <Text>{seats} seats</Text>
+            <View style={styles.descBox}>
+              <MaterialCommunityIcons
+                name="account-multiple-outline"
+                size={14}
+                color={colors.grey}
+              />
+              <Text>{seats} seats</Text>
+            </View>
           </View>
           <View style={styles.descBox}>
             <MaterialCommunityIcons
@@ -61,15 +78,20 @@ export default function Car({
         </View>
       </View>
       <MaterialIcons
-        name="radio-button-unchecked"
+        name={selected ? "radio-button-checked" : "radio-button-unchecked"}
         size={28}
         color={colors.accent}
       />
-      {/* <MaterialIcons name="radio-button-checked" size={28} color="#DED47B" /> */}
     </TouchableOpacity>
   );
 }
+
 const styles = StyleSheet.create({
+  carSelected: {
+    height: 72,
+    backgroundColor: "rgba(222, 212, 123, 0.15)",
+  },
+
   car: {
     flexDirection: "row",
     alignItems: "center",
@@ -119,3 +141,7 @@ const styles = StyleSheet.create({
   minutes: { fontSize: 16 },
   seats: { fontSize: 16 },
 });
+
+const MemoCar = React.memo(Car);
+(MemoCar as any).whyDidYouRender = true;
+export default MemoCar;

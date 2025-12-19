@@ -1,11 +1,12 @@
-# Project Screenshots
+Оптимізації Опис домашнього завдання
 
-Context - реалізував за допомогою функціоналу перемикання теми. 
+- Анімація: LayoutAnimation у виборі авто (ChooseCar + Car) з плавним розкриттям/підсвіткою вибраної картки. (Скріншоти 1 та 2)
+- Ререндери: Car обгорнуто в React.memo, price рахується через useMemo, хендлер вибору стабілізовано useCallback.
 
-Redux - руалізував функціоналом редагування адреси в полях вводу  'Звідки' і "Куди". Викликаю dispаtch і передаю функції для заміни адреси в Stori.
-А в наступному екрані за допомогою useSelector() дістаю значення зі storu, відмальовую через компонент Text.
+- Очищення / заміна залежностей: Я проаналізував розмір бандлу за допомогою Expo Atlas і побачив, що бібліотека lucide-react-native займала значну частину JS-бандлу (скріншот Expo-Atlas.png), хоча використовувалась лише для однієї іконки. Я замінив її на іконки з @expo/vector-icons, видалив зайву залежність і підтвердив зменшення бандлу, порівнявши treemap до та після повторної збірки. Результат на скріншоті Expo-Atlas2.png
 
-- ![Address Redux](src/assets/scrinshots/address-redux.png)
-- ![Address Redux  1](src/assets/scrinshots/address-redux1.png)
-- ![Theme context ](src/assets/scrinshots/theme-context.png)
-- ![Theme context 1](src/assets/scrinshots/theme-context1.png)
+Скріншоти:
+- `assets/scrinshots/1.png`
+- `assets/scrinshots/2.png`
+- `assets/scrinshots/Expo-Atlas.png`
+- `assets/scrinshots/Expo-Atlas2.png`
