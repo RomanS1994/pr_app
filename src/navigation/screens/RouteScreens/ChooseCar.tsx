@@ -15,7 +15,7 @@ import MainButton from "../../../components/mainButton";
 import SecondaryButton from "../../../components/secondaryButton";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 export default function ChooseCar({ route }) {
   React.useEffect(() => {
@@ -36,8 +36,7 @@ export default function ChooseCar({ route }) {
   const navigation = useNavigation();
 
   const { from, to } = useSelector((state) => state.address);
-
-  const { distance } = route?.params ?? {};
+  const { distance } = useSelector((state) => state.trip);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -59,7 +58,7 @@ export default function ChooseCar({ route }) {
         <Car
           title="Standard"
           distance={distance}
-          suitcase="2"
+          suitcase="3"
           seats="4"
           selected={selectedCar === "Standard"}
           onSelect={handleSelect}
@@ -67,8 +66,8 @@ export default function ChooseCar({ route }) {
         <Car
           title="Comfort"
           distance={distance}
-          suitcase="2"
-          seats="4"
+          suitcase="3"
+          seats="3"
           selected={selectedCar === "Comfort"}
           onSelect={handleSelect}
         ></Car>
@@ -76,15 +75,15 @@ export default function ChooseCar({ route }) {
           title="Business"
           distance={distance}
           suitcase="2"
-          seats="4"
+          seats="3"
           selected={selectedCar === "Business"}
           onSelect={handleSelect}
         ></Car>
         <Car
           title="Van"
           distance={distance}
-          suitcase="2"
-          seats="4"
+          suitcase="7"
+          seats="7"
           selected={selectedCar === "Van"}
           onSelect={handleSelect}
         ></Car>

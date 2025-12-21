@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Alert, StyleSheet, View } from "react-native";
 import InputSearchAddress from "../../../components/inputSearchAdress";
 import SecondaryButton from "../../../components/secondaryButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const API_KEY = process.env.EXPO_PUBLIC_GOOGLE_MAPS_KEY;
 
 import MapView, { Marker } from "react-native-maps";
@@ -12,6 +12,7 @@ import {
   changeFrom,
   changeTo,
 } from "../../../features/address/addressSlice/addressSlice";
+import { resetTrip, setDistance } from "../../../features/trip/tripSlice";
 // import { geocodeAddress } from "../../../maps/maps";
 
 type Coordinates = {
@@ -20,11 +21,16 @@ type Coordinates = {
 };
 
 export default function RouteHome() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(resetTrip());
+  }, [dispatch]);
+
   const navigation = useNavigation();
 
   const [pickUpAdres, setpickUpAddres] = useState("");
   const [dropOffAddres, setDropOffAddres] = useState("");
-  const [distance, setDistance] = useState("");
   const [pickUpCoords, setPickUpCoords] = useState<Coordinates | null>(null);
   const [dropOffCoords, setDropOffCoords] = useState<Coordinates | null>(null);
   const [region, setRegion] = useState({
@@ -33,8 +39,6 @@ export default function RouteHome() {
     latitudeDelta: 0.05,
     longitudeDelta: 0.05,
   });
-
-  const dispatch = useDispatch();
 
   const goNext = () => {
     if (!pickUpAdres.trim() || !dropOffAddres.trim()) {
@@ -45,7 +49,7 @@ export default function RouteHome() {
     dispatch(changeFrom(pickUpAdres));
     dispatch(changeTo(dropOffAddres));
 
-    navigation.navigate("ChooseCar", { pickUpAdres, dropOffAddres, distance });
+    navigation.navigate("ChooseCar", { pickUpAdres, dropOffAddres });
   };
 
   return (
@@ -68,7 +72,7 @@ export default function RouteHome() {
             strokeWidth={3}
             strokeColor="#DED47B"
             onReady={(result) => {
-              setDistance(result.distance);
+              dispatch(setDistance(result.distance));
               console.log(`Distance: ${result.distance} km`);
               console.log(`Duration: ${result.duration} min.`);
             }}
@@ -92,7 +96,7 @@ export default function RouteHome() {
         </View>
 
         <SecondaryButton
-          style={{ backgroundColor: "red" }}
+          style={styles.buttonNext}
           onPress={() => goNext()}
           text="Next Step"
         ></SecondaryButton>
@@ -107,6 +111,8 @@ const styles = StyleSheet.create({
   },
 
   box: {
+    flex: 1,
+
     marginTop: 34,
 
     gap: 24,
@@ -117,5 +123,8 @@ const styles = StyleSheet.create({
 
   inputWrapper: {
     gap: 12,
+  },
+  buttonNext: {
+    marginTop: "auto",
   },
 });

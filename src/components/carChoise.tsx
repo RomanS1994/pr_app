@@ -20,7 +20,7 @@ const images = {
 
 type CarProps = {
   title: "Standard" | "Comfort" | "Business" | "Van";
-  distance: number;
+  distance?: number | null;
   seats: string | number;
   suitcase: string | number;
   style?: any;
@@ -30,12 +30,12 @@ type CarProps = {
 
 function Car({
   title,
-  distance,
   seats,
   suitcase,
   style,
   selected,
   onSelect,
+  distance = 0,
 }: CarProps) {
   const price = useMemo(() => {
     return Math.round(
